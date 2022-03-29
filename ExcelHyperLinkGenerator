@@ -1,0 +1,37 @@
+Sub SetFileHyperLinks()
+
+Dim thisSheet
+Dim index
+Dim jndex
+Dim filePathName
+Dim hyperLink
+Dim maxPages
+Dim endColumn
+
+thisSheet = ActiveSheet.Name
+maxPages = 10
+endColumn = 9
+
+index = 2
+
+While Not IsEmpty(Cells(index, 1))
+
+    
+    
+    For jndex = 1 To maxPages Step 1
+        filePathName = Cells(index, 9) & "\tiff\" & Cells(index, 3) & "_" & jndex & ".tiff"
+        hyperLink = "=HYPERLINK(""" & filePathName & """, ""Page " & jndex & """)"
+        
+        If FileExists(ThisWorkbook.Path & "\" & filePathName) Then
+            Cells(index, endColumn + jndex) = hyperLink
+        End If
+    Next
+    index = index + 1
+Wend
+
+
+End Sub
+
+Function FileExists(FileName As String) As Boolean
+     FileExists = (Dir(FileName) > "")
+End Function
